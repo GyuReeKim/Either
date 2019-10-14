@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block body %}
+  <h1 class="d-flex justify-content-center m-3 title">{{question.title}}</h1>
+  <div class="container">
+    <div class="row">
+      <a style="height: 300px;" class="btn btn-info text-white d-flex flex-column justify-content-center col-6 options">
+        <h5>{{question.option_left}}</h5>
+        <h5>{{left}}명</h5>
+        <h5>{{left_per}}%</h5>
+      </a>
+      <a class="btn btn-warning text-white d-flex flex-column justify-content-center col-6 options">
+        <h5>{{question.option_right}}</h5>
+        <h5>{{right}}명</h5>
+        <h5>{{right_per}}%</h5>
+      </a>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <form action="{% url 'questions:answer_create' question.id choice.id %}" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="comment">댓글 입력</label>
+        <input type="text" class="form-control" id="comment" name="comment">
+      </div>
+    </form>
+    <table class="table">
+      <tbody>
+        {% for choice_pick in choices %}
+        {% if choice_pick.comment %}
+        <tr>
+          <td class="answer">{{choice_pick.comment}}</td>
+          <td><a class="btn btn-dark" href="{% url 'questions:answer_delete' question.id choice_pick.id %}">댓글 삭제</a></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}

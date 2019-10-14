@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block body %}
+  <h1 class="d-flex justify-content-center m-3 title">{{question.title}}</h1>
+  <div class="container">
+    <div class="row">
+      <a style="height: 300px;" class="btn btn-info text-white d-flex flex-column justify-content-center col-6 options" href="{% url 'questions:pick_count' question.id 1 %}">
+        <h5>{{question.option_left}}</h5>
+      </a>
+      <a class="btn btn-warning text-white d-flex flex-column justify-content-center col-6 options" href="{% url 'questions:pick_count' question.id 2 %}">
+          <h5>{{question.option_right}}</h5>
+      </a>
+    </div>
+    </div>
+      <a class="btn btn-secondary mt-3" href="{% url 'questions:question_update' question.id %}">질문 수정</a>
+      <a class="btn btn-danger mt-3" href="{% url 'questions:question_delete' question.id %}">질문 삭제</a>
+    </div>
+  </div>
+  <div class="container mt-5">
+    <table class="table">
+      <tbody>
+        {% for choice_pick in choices %}
+        {% if choice_pick.comment %}
+        <tr>
+          <td class="answer">{{choice_pick.comment}}</td>
+          <td><a class="btn btn-dark" href="{% url 'questions:answer_delete' question.id choice_pick.id %}">댓글 삭제</a></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
